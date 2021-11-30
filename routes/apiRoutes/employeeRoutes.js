@@ -39,7 +39,7 @@ router.get('/employee/:id', (req, res) => {
 // Add an employee
 router.post('/employee', ({ body }, res) => {
   // Data validation
-  const errors = inputCheck(body, 'first_name,', 'last_name', 'role_id', 'manager_id');
+  const errors = inputCheck(body, 'first_name', 'last_name', 'role_id', 'manager_id');
   if (errors) {
     res.status(400).json({ error: errors });
     return;
