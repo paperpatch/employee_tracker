@@ -4,14 +4,14 @@ DROP TABLE IF EXISTS employee;
 
 CREATE TABLE department (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30) NOT NULL,
+  name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   salary DECIMAL(5,2),
-  department_id BOOLEAN NOT NULL,
+  department_id INTEGER,
   CONSTRAINT fk_department
     FOREIGN KEY (department_id)
     REFERENCES department(id)
