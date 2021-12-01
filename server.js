@@ -25,14 +25,15 @@ db.connect(err => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+  promptUser();
 });
 
-// Inquirer Section
+// Initial Prompt Section
 const promptUser = function() {
   console.log(`
-  =======================
-  Add Manager to the Team
-  =======================
+  ==========================
+  Connected to MySQL Prompts
+  ==========================
   `)
   return inquirer.prompt([
     {
@@ -208,5 +209,3 @@ const addEmployee = function() {
     }
   })
 }
-
-promptUser();
