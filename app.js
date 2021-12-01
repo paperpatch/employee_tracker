@@ -4,18 +4,17 @@ const db = require('./db/connection');
 // Start server after DB connection
 db.connect(err => {
   if (err) throw err;
-  console.log('Database connected.');
+  console.log(`
+  ======================================
+  Connected to Employee Tracker Database
+  ======================================
+  `)
   promptUser();
 });
 
 // Initial Prompt Section
 
 const promptUser = function() {
-  console.log(`
-  ======================================
-  Connected to Employee Tracker Database
-  ======================================
-  `)
   inquirer.prompt([
     {
       type: 'list',
@@ -79,8 +78,6 @@ const promptUser = function() {
       case "View Total Utilized Budget":
         viewTotalUtilizedBudget();
         break;
-      case "Quit":
-        break;
     }
   })
 }
@@ -89,10 +86,10 @@ const promptUser = function() {
 
 function viewAllDepartments() {
   const sql = "SELECT * FROM department"
-  db.connect.query(sql, (err, result) => {
+  db.query(sql, (err, result) => {
     if (err) throw err;
     console.table(result);
-    startPrompt();
+    promptUser();
   })
 };
 
