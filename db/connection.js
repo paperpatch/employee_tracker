@@ -6,3 +6,5 @@ const db = mysql.createConnection({
   password: 'sql21',
   database: 'employee_tracker'
 })
+
+module.exports = db;
