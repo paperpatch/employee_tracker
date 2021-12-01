@@ -94,11 +94,21 @@ function viewAllDepartments() {
 };
 
 function viewAllRoles() {
-
+  const sql = "SELECT * FROM role"
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.table(result);
+    promptUser();
+  })
 };
 
 function viewAllEmployees() {
-
+  const sql = "SELECT * FROM employee"
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.table(result);
+    promptUser();
+  })
 };
 
 function addDepartment() {
