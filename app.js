@@ -9,6 +9,7 @@ db.connect(err => {
 });
 
 // Initial Prompt Section
+
 const promptUser = function() {
   console.log(`
   ======================================
@@ -34,20 +35,8 @@ const promptUser = function() {
         "Delete a Role",
         "Delete an Employee",
         "View Total Utilized Budget",
+        "Quit"
       ]
-    },
-    {
-      type: 'input',
-      name: 'id',
-      message: "Enter Manager's ID",
-      validate: idInput => {
-        if (isNaN(idInput)) {
-          console.log("Please enter the manager's ID.");
-          return false;
-        } else {
-          return true;
-        }
-      }
     },
   ]).then( list => {
     switch(list.choice) {
@@ -90,7 +79,8 @@ const promptUser = function() {
       case "View Total Utilized Budget":
         viewTotalUtilizedBudget();
         break;
-      
+      case "Quit":
+        break;
     }
   })
 }
@@ -98,7 +88,12 @@ const promptUser = function() {
 // Functions Section For Each Choice
 
 function viewAllDepartments() {
-
+  const sql = "SELECT * FROM department"
+  db.connect.query(sql, (err, result) => {
+    if (err) throw err;
+    console.table(result);
+    startPrompt();
+  })
 };
 
 function viewAllRoles() {
