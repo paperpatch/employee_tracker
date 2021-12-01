@@ -31,23 +31,30 @@ db.connect(err => {
 // Initial Prompt Section
 const promptUser = function() {
   console.log(`
-  ==========================
-  Connected to MySQL Prompts
-  ==========================
+  ======================================
+  Connected to Employee Tracker Database
+  ======================================
   `)
-  return inquirer.prompt([
+  inquirer.prompt([
     {
-      type: 'input',
-      name: 'name',
-      message: "Enter Manager's name",
-      validate: nameInput => {
-        if (nameInput) {
-          return true;
-        } else {
-          console.log("Please enter the manager's name.");
-          return false;
-        }
-      }
+      type: 'list',
+      name: 'choice',
+      message: "What would you like to do?",
+      choices: [
+        "View all Departments",
+        "View all Roles",
+        "View all Employees",
+        "Add Department",
+        "Add Role",
+        "Add Employee",
+        "Update Employee's Role",
+        "Update Employee's Manager",
+        "View all employees by Departments",
+        "Delete a Department",
+        "Delete a Role",
+        "Delete an Employee",
+        "View Total Utilized Budget",
+      ]
     },
     {
       type: 'input',
@@ -62,40 +69,49 @@ const promptUser = function() {
         }
       }
     },
-    {
-      type: 'input',
-      name: 'email',
-      message: "Enter Manager's email",
-      validate: emailInput => {
-        valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailInput)
-        if (valid) {
-          return true;
-        } else {
-          console.log("Please enter a valid email address.");
-          return false;
-        }
-      }
-    },
-    {
-      type: 'input',
-      name: 'officeNumber',
-      message: "Enter Manager's office number",
-      validate: officeInput => {
-        if (isNaN(officeInput)) {
-          console.log("Please enter the manager's office number.");
-          return false;
-        } else {
-          return true;
-        }
-      }
-    },
-  ])
-  .then(managerData => {
-    const {name, id, email, officeNumber} = managerData;
-    const manager = new Manager(name, id, email, officeNumber);
-
-    team.push(manager);
-    console.log(manager);
+  ]).then( list => {
+    switch(list.choice) {
+      case "View all Departments":
+        viewAllDepartments();
+        break;
+      case "View all Roles":
+        viewAllRoles();
+        break;
+      case "View all Employees":
+        viewAllEmployees();
+        break;
+      case "Add Department":
+        addDepartment();
+        break;
+      case "Add Role":
+        addRole();
+        break;
+      case "Add Employee":
+        addEmployee();
+        break;
+      case "Update Employee's Role":
+        updateEmployeeRole();
+        break;
+      case "Update Employee's Manager":
+        updateEmployeeManager();
+        break;
+      case "View all employees by Departments":
+        viewEmployeesByDepartment();
+        break;
+      case "Delete a Department":
+        deleteDepartment();
+        break;
+      case "Delete a Role":
+        deleteRole();
+        break;
+      case "Delete an Employee":
+        deleteEmployee();
+        break;
+      case "View Total Utilized Budget":
+        viewTotalUtilizedBudget();
+        break;
+      
+    }
   })
 }
 
