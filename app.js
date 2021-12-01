@@ -95,3 +95,49 @@ const promptUser = function() {
   })
 }
 
+// Functions Section For Each Choice
+
+function viewAllDepartments() {
+
+};
+
+function viewAllRoles() {
+
+};
+
+function viewAllEmployees() {
+
+};
+
+function addDepartment() {
+
+};
+function addRole() {
+
+};
+function addEmployee() {
+
+};
+function updateEmployeeRole() {
+
+};
+function updateEmployeeManager() {
+
+};
+function viewEmployeesByDepartment() {
+
+};
+function deleteDepartment() {
+
+};
+function deleteRole() {
+
+};
+function deleteEmployee() {
+
+};
+function viewTotalUtilizedBudget() {
+
+};
+
+
