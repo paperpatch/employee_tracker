@@ -65,7 +65,7 @@ const promptUser = function() {
         updateEmployeeManager();
         break;
       case "View employees by Managers":
-        viewEmployeesByDepartment();
+        viewEmployeesByManagers();
         break;
       case "View employees by Departments":
         viewEmployeesByDepartment();
@@ -245,22 +245,66 @@ function updateEmployeeRole() {
       name: "role_id",
       type: "input",
       message: "Update employee's new role",
+      validate: roleIdInput => {
+        if (isNaN(roleIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
     },
   ]).then( res => {
     const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
     const params = [res.role_id, res.id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.table(result);
+      console.log("Employee's role has been updated");
       promptUser();
     });
   });
 };
 
 function updateEmployeeManager() {
-
+  inquirer.prompt([
+    {
+      name: "id",
+      type: "input",
+      message: "Enter employee's id for update",
+      validate: employeeIdInput => {
+        if (isNaN(employeeIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+    {
+      name: "manager_id",
+      type: "input",
+      message: "Update employee's new manager",
+      validate: managerIdInput => {
+        if (isNaN(managerIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `UPDATE employee SET manager_id = ? WHERE id = ?`;
+    const params = [res.manager_id, res.id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.log("Employee's manager has been updated");
+      promptUser();
+    });
+  });
 };
-function viewEmployeesByManager() {
+
+function viewEmployeesByManagers() {
 
 };
 function viewEmployeesByDepartment() {
