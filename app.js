@@ -336,8 +336,8 @@ function viewEmployeesByDepartment() {
       name: "department_id",
       type: "input",
       message: "Enter department's id to view employees",
-      validate: managerIdInput => {
-        if (isNaN(managerIdInput)) {
+      validate: departmentIdInput => {
+        if (isNaN(departmentIdInput)) {
           console.log("Please enter a valid number");
           return false;
         } else {
@@ -359,8 +359,31 @@ function viewEmployeesByDepartment() {
 };
 
 function deleteDepartment() {
-
+  inquirer.prompt([
+    {
+      name: "department_id",
+      type: "input",
+      message: "Enter Department ID to delete",
+      validate: departmentIdInput => {
+        if (isNaN(departmentIdInput)) {
+          console.log("Please enter a valid department id");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `DELETE from department WHERE id = ?`;
+    const params = [res.department_id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.log("Department successfully deleted");
+      promptUser();
+    });
+  });
 };
+
 function deleteRole() {
 
 };
