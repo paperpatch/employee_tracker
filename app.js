@@ -366,7 +366,7 @@ function deleteDepartment() {
       message: "Enter Department ID to delete",
       validate: departmentIdInput => {
         if (isNaN(departmentIdInput)) {
-          console.log("Please enter a valid department id");
+          console.log("Please enter a valid id");
           return false;
         } else {
           return true;
@@ -374,7 +374,7 @@ function deleteDepartment() {
       }
     },
   ]).then( res => {
-    const sql = `DELETE from department WHERE id = ?`;
+    const sql = `DELETE FROM department WHERE id = ?`;
     const params = [res.department_id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
@@ -385,13 +385,59 @@ function deleteDepartment() {
 };
 
 function deleteRole() {
-
+  inquirer.prompt([
+    {
+      name: "role_id",
+      type: "input",
+      message: "Enter Role ID to delete",
+      validate: roleIdInput => {
+        if (isNaN(roleIdInput)) {
+          console.log("Please enter a valid id");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `DELETE FROM role WHERE id = ?`;
+    const params = [res.role_id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.log("Role successfully deleted");
+      promptUser();
+    });
+  });
 };
+
 function deleteEmployee() {
-
+  inquirer.prompt([
+    {
+      name: "employee_id",
+      type: "input",
+      message: "Enter Employee ID to delete",
+      validate: employeeIdInput => {
+        if (isNaN(employeeIdInput)) {
+          console.log("Please enter a valid id");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `DELETE FROM employee WHERE id = ?`;
+    const params = [res.employee_id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.log("Employee successfully deleted");
+      promptUser();
+    });
+  });
 };
-function viewTotalUtilizedBudget() {
 
+function viewTotalUtilizedBudget() {
+  
 };
 
 
