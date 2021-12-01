@@ -127,7 +127,7 @@ function addDepartment() {
     const params = [res.name];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.table(result);
+      console.log("New Department Added Successfully");
       promptUser();
     });
   });
@@ -171,7 +171,7 @@ function addRole() {
     const params = [res.title, res.salary, res.department_id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.table(result);
+      console.log("New Role Added Successfully");
       promptUser();
     });
   });
@@ -220,7 +220,7 @@ function addEmployee() {
     const params = [res.first_name, res.last_name, res.role_id, res.manager_id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.table(result);
+      console.log("New Employee Added Successfully");
       promptUser();
     });
   });
@@ -305,11 +305,59 @@ function updateEmployeeManager() {
 };
 
 function viewEmployeesByManagers() {
-
+  inquirer.prompt([
+    {
+      name: "manager_id",
+      type: "input",
+      message: "Enter manager's id to view employees",
+      validate: managerIdInput => {
+        if (isNaN(managerIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `SELECT * FROM employee WHERE manager_id = ?`;
+    const params = [res.manager_id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.table(result);
+      promptUser();
+    });
+  });
 };
+
 function viewEmployeesByDepartment() {
-
+  inquirer.prompt([
+    {
+      name: "department_id",
+      type: "input",
+      message: "Enter department's id to view employees",
+      validate: managerIdInput => {
+        if (isNaN(managerIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `SELECT employee.*, department.*
+                FROM employee, department
+                WHERE department.id = ?`;
+    const params = [res.department_id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.table(result);
+      promptUser();
+    });
+  });
 };
+
 function deleteDepartment() {
 
 };
