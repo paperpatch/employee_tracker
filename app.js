@@ -29,7 +29,8 @@ const promptUser = function() {
         "Add Employee",
         "Update Employee's Role",
         "Update Employee's Manager",
-        "View all employees by Departments",
+        "View employees by Managers",
+        "View employees by Departments",
         "Delete a Department",
         "Delete a Role",
         "Delete an Employee",
@@ -63,7 +64,10 @@ const promptUser = function() {
       case "Update Employee's Manager":
         updateEmployeeManager();
         break;
-      case "View all employees by Departments":
+      case "View employees by Managers":
+        viewEmployeesByDepartment();
+        break;
+      case "View employees by Departments":
         viewEmployeesByDepartment();
         break;
       case "Delete a Department":
@@ -134,7 +138,7 @@ function addRole() {
     {
       name: "title",
       type: "input",
-      message: "Enter title of new role",
+      message: "Enter name of new role",
     },
     {
       name: "salary",
@@ -252,7 +256,11 @@ function updateEmployeeRole() {
     });
   });
 };
+
 function updateEmployeeManager() {
+
+};
+function viewEmployeesByManager() {
 
 };
 function viewEmployeesByDepartment() {
