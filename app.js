@@ -221,8 +221,36 @@ function addEmployee() {
     });
   });
 };
-function updateEmployeeRole() {
 
+function updateEmployeeRole() {
+  inquirer.prompt([
+    {
+      name: "id",
+      type: "input",
+      message: "Enter employee's id for update",
+      validate: employeeIdInput => {
+        if (isNaN(employeeIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+    {
+      name: "role_id",
+      type: "input",
+      message: "Update employee's new role",
+    },
+  ]).then( res => {
+    const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+    const params = [res.role_id, res.id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.table(result);
+      promptUser();
+    });
+  });
 };
 function updateEmployeeManager() {
 
