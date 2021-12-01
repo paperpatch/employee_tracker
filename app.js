@@ -152,9 +152,9 @@ function addRole() {
     {
       name: "department_id",
       type: "input",
-      message: "Enter associated department id of new role",
-      validate: salaryInput => {
-        if (isNaN(salaryInput)) {
+      message: "Enter new role's associated department id",
+      validate: departmentIdInput => {
+        if (isNaN(departmentIdInput)) {
           console.log("Please enter a valid department id");
           return false;
         } else {
@@ -162,7 +162,6 @@ function addRole() {
         }
       }
     },
-    
   ]).then( res => {
     const sql = `INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`;
     const params = [res.title, res.salary, res.department_id];
@@ -175,7 +174,52 @@ function addRole() {
 };
 
 function addEmployee() {
-
+  inquirer.prompt([
+    {
+      name: "first_name",
+      type: "input",
+      message: "Enter new employee's first name",
+    },
+    {
+      name: "last_name",
+      type: "input",
+      message: "Enter new employee's last name",
+    },
+    {
+      name: "role_id",
+      type: "input",
+      message: "Enter new employee's associated role id",
+      validate: roleIdInput => {
+        if (isNaN(roleIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+    {
+      name: "manager_id",
+      type: "input",
+      message: "Enter new employee's associated manager's id",
+      validate: managerIdInput => {
+        if (isNaN(managerIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
+    const params = [res.first_name, res.last_name, res.role_id, res.manager_id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.table(result);
+      promptUser();
+    });
+  });
 };
 function updateEmployeeRole() {
 
