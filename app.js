@@ -85,7 +85,7 @@ const promptUser = function() {
 // Functions Section For Each Choice
 
 function viewAllDepartments() {
-  const sql = "SELECT * FROM department"
+  const sql = `SELECT * FROM department`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     console.table(result);
@@ -94,7 +94,7 @@ function viewAllDepartments() {
 };
 
 function viewAllRoles() {
-  const sql = "SELECT * FROM role"
+  const sql = `SELECT * FROM role`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     console.table(result);
@@ -103,7 +103,7 @@ function viewAllRoles() {
 };
 
 function viewAllEmployees() {
-  const sql = "SELECT * FROM employee"
+  const sql = `SELECT * FROM employee`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     console.table(result);
@@ -112,7 +112,21 @@ function viewAllEmployees() {
 };
 
 function addDepartment() {
-
+  inquirer.prompt([
+    {
+      name: "name",
+      type: "input",
+      message: "Add a new Department",
+    }
+  ]).then( res => {
+    const sql = `INSERT INTO department (name) VALUES (?)`;
+    const params = [res.name];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.table(result);
+      promptUser();
+    });
+  });
 };
 function addRole() {
 
