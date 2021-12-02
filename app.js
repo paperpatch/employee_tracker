@@ -98,9 +98,9 @@ function viewAllDepartments() {
 };
 
 function viewAllRoles() {
-  const sql = `SELECT role.id, role.title, role.salary, department.id, department.name AS department
-              FROM department
-              JOIN role ON department.id = role.department_id`;
+  const sql = `SELECT role.id, role.title, role.salary, role.department_id, department.name AS department
+              FROM role
+              LEFT JOIN department ON department.id = role.department_id`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     console.table(result);
@@ -122,56 +122,30 @@ function viewAllEmployees() {
 };
 
 function viewEmployeesByManagers() {
-  inquirer.prompt([
-    {
-      name: "manager_id",
-      type: "input",
-      message: "Enter manager's id to view employees",
-      validate: managerIdInput => {
-        if (isNaN(managerIdInput)) {
-          console.log("Please enter a valid number");
-          return false;
-        } else {
-          return true;
-        }
-      }
-    },
-  ]).then( res => {
-    const sql = `SELECT * FROM employee WHERE manager_id = ?`;
-    const params = [res.manager_id];
-    db.query(sql, params, (err, result) => {
-      if (err) throw err;
-      console.table(result);
-      promptUser();
-    });
+  const sql = `SELECT CONCAT(m.first_name, ' ' ,m.last_name) as manager, employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name AS department 
+              FROM employee
+              JOIN role ON employee.role_id = role.id
+              JOIN department ON role.department_id = department.id
+              JOIN employee m ON employee.manager_id = m.id
+              ORDER BY employee.manager_id`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.table(result);
+    promptUser();
   });
 };
 
 function viewEmployeesByDepartment() {
-  inquirer.prompt([
-    {
-      name: "department_id",
-      type: "input",
-      message: "Enter department's id to view employees",
-      validate: departmentIdInput => {
-        if (isNaN(departmentIdInput)) {
-          console.log("Please enter a valid number");
-          return false;
-        } else {
-          return true;
-        }
-      }
-    },
-  ]).then( res => {
-    const sql = `SELECT employee.*, department.*
-                FROM employee, department
-                WHERE department.id = ?`;
-    const params = [res.department_id];
-    db.query(sql, params, (err, result) => {
-      if (err) throw err;
-      console.table(result);
-      promptUser();
-    });
+  const sql = `SELECT department.name AS department, employee.id, employee.first_name, employee.last_name, role.title, role.salary, CONCAT(m.first_name, ' ' ,m.last_name) as manager
+              FROM employee
+              LEFT JOIN role ON employee.role_id = role.id
+              LEFT JOIN department ON role.department_id = department.id
+              LEFT JOIN employee m ON employee.manager_id = m.id
+              ORDER BY department.name`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.table(result);
+    promptUser();
   });
 };
 
