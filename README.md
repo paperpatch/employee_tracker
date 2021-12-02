@@ -13,16 +13,16 @@ Created a command-line application to manage a company's employee database using
 ## Setup
 :floppy_disk:
 
-Go to [Node's website](https://nodejs.org/en/) and follow the download instructions for your appropriate setup. NPM, or Node Package Manager, is the default package manager for Node.js. It is distributed with Node.js. Do not forget to npm init if you are using it for the very first time.
+Go to [Node's website](https://nodejs.org/en/) and follow the download instructions for your appropriate setup. NPM, or Node Package Manager, is the default package manager for Node.js. It is distributed with Node.js.
 
-Check that your system has the following npm:
+The database uses the following npm:
 - [Node Package Manager](https://nodejs.org/en/)
   - Run `npm install` in order to install the following npm package dependencies as specified in the `package.json`.
   - This will also help install express on your system and manage any other dependencies in your script.
-- [Express](https://www.npmjs.com/package/express)
-  - Express is a back end web application framework for Node.js. Released as free and open-source software under the MIT License. Designed for building web applications and APIs. Many users use it as a standard server framework for Node.js.
 - [Inquirer](https://www.npmjs.com/package/inquirer)
   - Inquirer provides an easy way to capture user input in your Node.jS. Provides several methods for asking questions and returning answers form the user that can be accessed by a `.then` promise function.
+- [Console Table](https://www.npmjs.com/package/console.table)
+  - Adds console.table method for convenience. Prints MySQL rows to the console.
 
 Uses MySQL and MySQL2 tools for this application:
 
@@ -35,35 +35,72 @@ Uses MySQL and MySQL2 tools for this application:
 
 `npm install inquirer`
 
-`npm install express`
+`npm install --save mysql2`
 
-`npm install express mysql2`
+To access the SQL database, create and use the database by opening up the correct path terminal. Source populates the data in your database. In your terminal, type:
+
+`mysql -u root -p` and enter the password `sql21` when prompt.
+
+`CREATE DATABASE employee_tracker;`
+
+`USE employee_tracker;`
+
+`source db/schema.sql;`
+
+`source db/seeds.sql;`
+
+`SELECT * FROM employee;`
+
+`SELECT * FROM role;`
+
+`SELECT * FROM department;`
 
 ## Usage
 
 :computer:
 
-mySQL prompts:
+mySQL prompts to start (see above for setup instructions):
 
 `mysql -u root -p` (Use password `sql21` for this exercise)
 
 `USE election;`
 
+
 Command-line prompts:
 
-Run `npm start` in the command line to start the server.
+Run `npm start` or `node app.js` in the command line to start the prompts.
 
+The following choices will be displayed to you:
 
+`View all Departments`
 
-After filling out the manager's name, employee ID, email address, and office number, you will be prompted the option to add an engineer or intern to finish building the team.
+`View all Roles`
 
-If `engineer` was selected, you will be prompted for the engineer's name, ID, email, and Github username.
+`View all Employees`
 
-If `intern` was selected, you will be prompted for the intern's name, ID, email, and school.
+`View employees by Managers`
 
-After finishing your inputs, the app will generate an HTML page and copy a sourced CSS file. The files can be found within the `dist` folder.
+`View employees by Departments`
 
-A demonstration can be found below:
+`Add Department`
+
+`Add Role`
+
+`Add Employee`
+
+`Update Employee's Role`
+
+`Update Employee's Manager`
+
+`Delete a Department`
+
+`Delete a Role`
+
+`Delete an Employee`
+
+`View Total Utilized Budget`
+
+Each choice will either display table of data values or prompt you into selecting further choices, such as selecting an Employee's ID to delete an Employee. A demonstration can be found below:
 
 ![!demo gif](./assets/images/team_generator_demo.gif)
 
