@@ -45,7 +45,7 @@ Uses MySQL and MySQL2 tools for this application:
 
 mySQL prompts:
 
-`mysql -u root -p`
+`mysql -u root -p` (Use password `sql21` for this exercise)
 
 `USE election;`
 
