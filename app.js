@@ -161,7 +161,11 @@ function addDepartment() {
     const params = [res.name];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.log("New Department Added Successfully");
+      console.log(`
+      ============================
+      Department Added Succesfully
+      ============================
+      `)
       promptUser();
     });
   });
@@ -205,7 +209,11 @@ function addRole() {
     const params = [res.title, res.salary, res.department_id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.log("New Role Added Successfully");
+      console.log(`
+      ======================
+      Role Added Succesfully
+      ======================
+      `)
       promptUser();
     });
   });
@@ -254,7 +262,11 @@ function addEmployee() {
     const params = [res.first_name, res.last_name, res.role_id, res.manager_id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.log("New Employee Added Successfully");
+      console.log(`
+      ==========================
+      Employee Added Succesfully
+      ==========================
+      `)
       promptUser();
     });
   });
@@ -293,7 +305,11 @@ function updateEmployeeRole() {
     const params = [res.role_id, res.id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.log("Employee's role has been updated");
+      console.log(`
+      ============================
+      Employee Updated Succesfully
+      ============================
+      `)
       promptUser();
     });
   });
@@ -332,7 +348,11 @@ function updateEmployeeManager() {
     const params = [res.manager_id, res.id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.log("Employee's manager has been updated");
+      console.log(`
+      ======================================
+      Employee's Manager Updated Succesfully
+      ======================================
+      `)
       promptUser();
     });
   });
@@ -358,7 +378,11 @@ function deleteDepartment() {
     const params = [res.department_id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.log("Department successfully deleted");
+      console.log(`
+      ==============================
+      Department Deleted Succesfully
+      ==============================
+      `)
       promptUser();
     });
   });
@@ -384,7 +408,11 @@ function deleteRole() {
     const params = [res.role_id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.log("Role successfully deleted");
+      console.log(`
+      ========================
+      Role Deleted Succesfully
+      ========================
+      `)
       promptUser();
     });
   });
@@ -410,7 +438,11 @@ function deleteEmployee() {
     const params = [res.employee_id];
     db.query(sql, params, (err, result) => {
       if (err) throw err;
-      console.log("Employee successfully deleted");
+      console.log(`
+      ============================
+      Employee Deleted Succesfully
+      ============================
+      `)
       promptUser();
     });
   });
