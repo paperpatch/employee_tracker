@@ -102,7 +102,7 @@ The following choices will be displayed to you:
 
 Each choice will either display table of data values or prompt you into selecting further choices, such as selecting an Employee's ID to delete an Employee. A demonstration can be found below:
 
-![!demo gif](./assets/images/team_generator_demo.gif)
+![!demo gif](./assets/employee_tracker_demo.gif)
 
 
 ## Contributing
