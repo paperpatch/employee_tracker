@@ -7,6 +7,7 @@ db.connect(err => {
   console.log(`
   ======================================
   Connected to Employee Tracker Database
+  Press Ctrl + C to Quit
   ======================================
   `)
   promptUser();
@@ -24,18 +25,17 @@ const promptUser = function() {
         "View all Departments",
         "View all Roles",
         "View all Employees",
+        "View employees by Managers",
+        "View employees by Departments",
         "Add Department",
         "Add Role",
         "Add Employee",
         "Update Employee's Role",
         "Update Employee's Manager",
-        "View employees by Managers",
-        "View employees by Departments",
         "Delete a Department",
         "Delete a Role",
         "Delete an Employee",
         "View Total Utilized Budget",
-        "Quit"
       ]
     },
   ]).then( list => {
@@ -48,6 +48,12 @@ const promptUser = function() {
         break;
       case "View all Employees":
         viewAllEmployees();
+        break;
+      case "View employees by Managers":
+        viewEmployeesByManagers();
+        break;
+      case "View employees by Departments":
+        viewEmployeesByDepartment();
         break;
       case "Add Department":
         addDepartment();
@@ -63,12 +69,6 @@ const promptUser = function() {
         break;
       case "Update Employee's Manager":
         updateEmployeeManager();
-        break;
-      case "View employees by Managers":
-        viewEmployeesByManagers();
-        break;
-      case "View employees by Departments":
-        viewEmployeesByDepartment();
         break;
       case "Delete a Department":
         deleteDepartment();
@@ -113,6 +113,60 @@ function viewAllEmployees() {
     console.table(result);
     promptUser();
   })
+};
+
+function viewEmployeesByManagers() {
+  inquirer.prompt([
+    {
+      name: "manager_id",
+      type: "input",
+      message: "Enter manager's id to view employees",
+      validate: managerIdInput => {
+        if (isNaN(managerIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `SELECT * FROM employee WHERE manager_id = ?`;
+    const params = [res.manager_id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.table(result);
+      promptUser();
+    });
+  });
+};
+
+function viewEmployeesByDepartment() {
+  inquirer.prompt([
+    {
+      name: "department_id",
+      type: "input",
+      message: "Enter department's id to view employees",
+      validate: departmentIdInput => {
+        if (isNaN(departmentIdInput)) {
+          console.log("Please enter a valid number");
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+  ]).then( res => {
+    const sql = `SELECT employee.*, department.*
+                FROM employee, department
+                WHERE department.id = ?`;
+    const params = [res.department_id];
+    db.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.table(result);
+      promptUser();
+    });
+  });
 };
 
 function addDepartment() {
@@ -304,60 +358,6 @@ function updateEmployeeManager() {
   });
 };
 
-function viewEmployeesByManagers() {
-  inquirer.prompt([
-    {
-      name: "manager_id",
-      type: "input",
-      message: "Enter manager's id to view employees",
-      validate: managerIdInput => {
-        if (isNaN(managerIdInput)) {
-          console.log("Please enter a valid number");
-          return false;
-        } else {
-          return true;
-        }
-      }
-    },
-  ]).then( res => {
-    const sql = `SELECT * FROM employee WHERE manager_id = ?`;
-    const params = [res.manager_id];
-    db.query(sql, params, (err, result) => {
-      if (err) throw err;
-      console.table(result);
-      promptUser();
-    });
-  });
-};
-
-function viewEmployeesByDepartment() {
-  inquirer.prompt([
-    {
-      name: "department_id",
-      type: "input",
-      message: "Enter department's id to view employees",
-      validate: departmentIdInput => {
-        if (isNaN(departmentIdInput)) {
-          console.log("Please enter a valid number");
-          return false;
-        } else {
-          return true;
-        }
-      }
-    },
-  ]).then( res => {
-    const sql = `SELECT employee.*, department.*
-                FROM employee, department
-                WHERE department.id = ?`;
-    const params = [res.department_id];
-    db.query(sql, params, (err, result) => {
-      if (err) throw err;
-      console.table(result);
-      promptUser();
-    });
-  });
-};
-
 function deleteDepartment() {
   inquirer.prompt([
     {
@@ -437,7 +437,13 @@ function deleteEmployee() {
 };
 
 function viewTotalUtilizedBudget() {
-  
+  const sql = `SELECT SUM(salary) AS Total_Utilized_Budget
+              FROM role
+              JOIN employee ON employee.role_id = role.id
+              WHERE employee.id`
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.table(result);
+    promptUser();
+  })
 };
-
-
